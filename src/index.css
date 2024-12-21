@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@layer base {
+    body {
+      @apply font-montserrat bg-gray-100 ;
+    }
+}
+
+.custom-input {
+  @apply border-0 border-b-2 bg-none shadow-none w-full rounded-none hover:border-b !important;
+  margin-top: -1rem;
+}
+
+.custom-input::placeholder {
+  @apply text-gray-500 !important;
+}
+
+.custom-input:focus {
+  @apply outline-none opacity-100 transition-all !important;
+}
+
+.btn {
+  @apply w-full py-2 bg-purple text-white tracking-widest  text-lg rounded-md cursor-pointer flex items-center justify-center h-10  ;
+}
+
+.btn{
+  @apply hover:text-purple hover:border-purple !important;
+}
+
+
+.ant-modal-content,.ant-form-item-required{
+  @apply font-montserrat;
+}
+
+.ant-radio-button-wrapper-checked,.ant-pagination-item-active {
+  @apply border-purple text-purple !important;
+}
+.ant-pagination-item-active a
+{
+  @apply border-purple text-purple !important;
+}
+
+.ant-radio-button-wrapper:hover{
+  @apply text-purple !important;
+}
+
+.ant-radio-button-wrapper{
+  @media only screen and (max-width:992px){
+    display: flex;
+    flex-direction: column;
+    gap: 10px !important;
+  }
+}
