@@ -20,7 +20,7 @@ function SignupSignInComponent() {
     confirmPassword: "",
   });
 
-  const [laoding, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [isGoogleLoading, setGoogleLoading] = useState(false);
   const [loginForm, setLogin] = useState(false);
   const navigate = useNavigate();
@@ -171,16 +171,16 @@ function SignupSignInComponent() {
             showPassword={()=> setPassword(prev => !prev)} */
               />
               <Button
-                disabled={laoding}
+                disabled={loading}
                 onClick={loginFormHandler}
-                text={laoding ? "...laoding" : "Login with email and password"}
+                text={loading ? <p>Loading..</p>: "Login with email and password"}
               />
               <p className="text-center p-2">OR</p>
               <Button
                 disabled={isGoogleLoading}
                 onClick={loginWithgoogle}
                 blue={true}
-                text={isGoogleLoading ? "...laoding" : "login with google"}
+                text={isGoogleLoading ? <p>Loading..</p>: "login with google"}
               />
 
               <p className="text-center pt-4 capitalize">
@@ -252,10 +252,10 @@ function SignupSignInComponent() {
               />
 
               <Button
-                disabled={laoding}
+                disabled={loading}
                 onClick={signinHandler}
                 text={
-                  laoding ? "...laoding" : "sign up with email and password"
+                  loading ? <p>Loading..</p>: "sign up with email and password"
                 }
               />
               <p className="text-center p-2">OR</p>
@@ -263,7 +263,7 @@ function SignupSignInComponent() {
                 disabled={isGoogleLoading}
                 onClick={loginWithgoogle}
                 blue={true}
-                text={isGoogleLoading ? "...laoding" : "sign up with google"}
+                text={isGoogleLoading ?<p>Loading..</p>: "sign up with google"}
               />
 
               <p className="text-center pt-4 capitalize">

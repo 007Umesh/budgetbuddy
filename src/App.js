@@ -24,6 +24,7 @@ function App() {
   const [showHeader, setShowHeader] = useState(true);
   const [fields , setField] =useState([])
   const [imported, setImported] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
 
   useEffect(() => {
     // Hide header if the current path is "/"
@@ -71,7 +72,9 @@ function App() {
         let fieldArray =[];
 
         querySnapshot.forEach((doc) => {
-          transactionsArray.push(doc.data());
+          /* transactionsArray.push(doc.data()); */
+          const transaction = { ...doc.data(), key: doc.id }; 
+          transactionsArray.push(transaction);
           if(fieldArray.length === 0){
             fieldArray = Object.keys(doc.data());
           }
@@ -109,10 +112,30 @@ function App() {
   
  
   return (
-    <div className="md:flex w-screen h-screen">
+    <div className=" relative md:flex w-screen h-screen">
       {showHeader && (
         <div className="hidden md:flex">
           <Header user={user}/>
+        </div>
+      )}
+      {
+        showHeader && !isHeaderVisible &&(
+          <button
+          className="fixed top-3 left-4 z-50 bg-purple-600 text-purple p-2 rounded-md shadow-md md:hidden bg-glass"
+          onClick={() => setIsHeaderVisible(true)}
+        >
+          ☰
+        </button>
+       )}
+       {showHeader && isHeaderVisible && (
+        <div className="fixed top-0 left-0 w-52 h-full bg-black z-40 md:hidden">
+          <Header user={user} />
+          <button
+            className="absolute top-4 right-4 text-black font-bold"
+            onClick={() => setIsHeaderVisible(false)}
+          >
+            ✕
+          </button>
         </div>
       )}
       <div className="md:flex w-screen h-screen md:w-full md:h-full">

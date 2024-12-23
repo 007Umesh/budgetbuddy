@@ -4,6 +4,7 @@ import Button from "../components/CustomButton";
 import { jsonToCSV } from "react-papaparse";
 import toast from "react-hot-toast";
 import Papa from "papaparse";
+import Loader from "../components/Loader";
 
 function TransactionTable({ transactions, loading, fields, addTransaction }) {
   const { Option } = Select;
@@ -131,9 +132,9 @@ function TransactionTable({ transactions, loading, fields, addTransaction }) {
 
 
   return (
-    <div className="flex items-center justify-center h-screen md:h-screen md:w-full">
+    <div className="flex items-center justify-center h-screen md:h-screen md:w-full overflow-hidden">
       {loading ? (
-        <p>loading......</p>
+        <Loader></Loader>
       ) : (
         <>
           <div className="flex flex-col items-center gap-1 justify-center h-screen md:h-[80vh] p-10 rounded-xl md:shadow-card ml-5 md:ml-0">
