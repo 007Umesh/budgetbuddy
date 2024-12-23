@@ -72,7 +72,6 @@ function SignupSignInComponent() {
           .then((userCredential) => {
             // Signed up
             const user = userCredential.user;
-            console.log("fomrData", formData);
             toast.success("user created successfully");
             setLoading(false);
             createDoc(user, formData);
