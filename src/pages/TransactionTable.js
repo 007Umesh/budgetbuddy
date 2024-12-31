@@ -5,8 +5,9 @@ import { jsonToCSV } from "react-papaparse";
 import toast from "react-hot-toast";
 import Papa from "papaparse";
 import Loader from "../components/Loader";
+import { useMediaQuery } from 'react-responsive';
 
-function TransactionTable({ transactions, loading, fields, addTransaction }) {
+function TransactionTable({ transactions, loading, fields, addTransaction,deleteTransaction }) {
   const { Option } = Select;
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
@@ -33,10 +34,28 @@ function TransactionTable({ transactions, loading, fields, addTransaction }) {
       key: "date",
     },
     {
-      title: "Source of income and Expense",
+      title: "Source of I/E",
       dataIndex: "source",
       key: "source",
     },
+    {
+      title: 'Edit',
+        dataIndex: '',
+        key: 'x',
+        render: (text, record) => (
+          <span
+          className="text-red-600 cursor-pointer"
+          onClick={() => {
+            const confirmDelete = window.confirm("Are you sure you want to delete this transaction?");
+            if (confirmDelete) {
+              deleteTransaction(record.key); // Call the delete function passed as prop
+            }
+          }}
+          >
+            Delete
+          </span>
+        ),
+    }
   ];
 
   let filterTransactions = transactions.filter(
@@ -130,18 +149,18 @@ function TransactionTable({ transactions, loading, fields, addTransaction }) {
   };
 
 
-
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   return (
-    <div className="flex items-center justify-center h-screen md:h-screen md:w-full overflow-hidden">
+    <div className="flex items-center justify-center h-screen w-full md:mt-0 overflow-hidden">
       {loading ? (
         <Loader></Loader>
       ) : (
         <>
-          <div className="flex flex-col items-center gap-1 justify-center h-screen md:h-[80vh] p-10 rounded-xl md:shadow-card ml-5 md:ml-0">
-            <h1 className="font-bold text-purple text-2xl tracking-widest">
+          <div className="flex flex-col items-center gap-0 md:gap-1 justify-center h-screen  md:h-[80vh] md:p-10 rounded-xl md:shadow-card  md:ml-0 ">
+            <h1 className="font-bold text-purple text-lg md:text-2xl tracking-widest">
               My Transactions
             </h1>
-            <div className="flex gap-10 p-4">
+            <div className="flex  gap-4 md:gap-10 p-4">
               <div className="flex">
                 <input
                   value={search}
@@ -180,16 +199,19 @@ function TransactionTable({ transactions, loading, fields, addTransaction }) {
               </Radio.Group>
             </div>
 
-            <div className="p-3">
+            <div className=" p-3"
+             style={{ scrollBehavior: 'smooth' }}>
               <Table
                 dataSource={sortedTransactions}
                 columns={columns}
                 pagination={{ pageSize: 5 }}
+                style={isMobile ? { maxWidth:350 } : undefined}
+                scroll={isMobile ? { x: 700 } : undefined}
               />
-              <div className="flex justify-center">
+              <div className="flex flex-col md:flex-row justify-center">
                 <Button text={"EXPORT TO CSV"} onClick={exportCsv}></Button>
                 <label
-                  className="text-center text-[0.9rem] mx-[0.5rem] p-2 border-[1px] rounded-md 
+                  className=" text-center text-[0.9rem] mx-[0.5rem] p-2 border-[1px] rounded-md 
                 cursor-pointer h-auto transition duration-500 bg-white text-purple border-theme
                  hover:bg-purple hover:text-white mt-5 capitalize"
                 >

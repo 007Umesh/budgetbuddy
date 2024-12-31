@@ -7,8 +7,8 @@ function Cards({
   totalBalance
 }) {
   return (
-      <div className="flex gap-3 p-3 justify-center lg:gap-10 lg:flex lg:flex-row flex-col">
-        <div className="w-96 custom-card balance font-montserrat rounded-lg p-5 shadow-card">
+      <div className="flex gap-3 p-3 justify-center items-center lg:gap-10 lg:flex lg:flex-row flex-col">
+        <div className=" w-60 md:w-96 custom-card balance font-montserrat rounded-lg p-6 shadow-card">
           <div className="card-title text-center">
             <span className="text-white block text-lg font-semibold">
               Current Balance
@@ -20,7 +20,7 @@ function Cards({
         </div>
 
        
-        <div className=" w-96 custom-card income font-montserrat rounded-lg p-6 shadow-lg">
+        <div className=" w-60 md:w-96 custom-card income font-montserrat rounded-lg p-6 shadow-lg">
           <div className="card-title text-center">
             <span className="text-white block text-lg font-semibold">
               Total Income
@@ -32,7 +32,7 @@ function Cards({
         </div>
 
     
-        <div className="w-96 custom-card expense font-montserrat rounded-lg p-6 shadow-lg">
+        <div className="w-60 md:w-96 custom-card expense font-montserrat rounded-lg p-6 shadow-lg">
           <div className="card-title text-center">
             <span className="text-white block text-lg font-semibold">
               Total Expense

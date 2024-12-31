@@ -52,10 +52,9 @@
   @media only screen and (max-width:992px){
     display: flex;
     flex-direction: column;
-    gap: 10px !important;
+    width:80px;
   }
 }
-
 
 
 

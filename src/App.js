@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "./Firebase";
 import toast from "react-hot-toast";
-import { addDoc, collection, getDocs, query } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, query } from "firebase/firestore";
 import AddIncome from "./pages/AddIncome";
 import AddExpense from "./pages/AddExpense";
 import Header from "./components/Header";
@@ -30,6 +30,12 @@ function App() {
     // Hide header if the current path is "/"
     setShowHeader(location.pathname !== "/");
   }, [location]);
+
+    // Automatically close the sidebar when navigating to a new page
+    useEffect(() => {
+      setIsHeaderVisible(false); // Close the sidebar
+    }, [location]);
+
 
   const onFinish = (values, type) => {
     const newTransaction = {
@@ -59,6 +65,25 @@ function App() {
     } catch (err) {
       console.error("error in adding a transaction", err);
       toast.error("couldn't add a transaction");
+    }
+  }
+
+  async function deleteTransaction(key) {
+    try {
+      // Delete transaction from Firestore
+      const transactionDoc = doc(db, `users/${user.uid}/transactions`, key);
+      await deleteDoc(transactionDoc);
+      
+      // Remove the transaction from local state
+      setTransactions((prevTransactions) =>
+        prevTransactions.filter((transaction) => transaction.key !== key)
+      );
+
+      toast.success("Transaction deleted successfully");
+      calculatBalance();
+    } catch (err) {
+      console.error("Error deleting transaction", err);
+      toast.error("Couldn't delete the transaction");
     }
   }
 
@@ -131,7 +156,7 @@ function App() {
         <div className="fixed top-0 left-0 w-52 h-full bg-black z-40 md:hidden">
           <Header user={user} />
           <button
-            className="absolute top-4 right-4 text-black font-bold"
+            className="absolute top-4 right-4 text-black font-bold hidden"
             onClick={() => setIsHeaderVisible(false)}
           >
             ✕
@@ -156,7 +181,7 @@ function App() {
           <Route
             path="/records"
             element={
-              <TransactionTable transactions={transactions} loading={loading} fields={fields} addTransaction={addTransaction} />
+              <TransactionTable transactions={transactions} loading={loading} fields={fields} addTransaction={addTransaction} deleteTransaction={deleteTransaction}/>
             }
           />
           <Route
